@@ -4,10 +4,10 @@
       <Form :model="formData" :rules="formDataValidate" ref="formData"  class="loginContainer">
         <h3 class="loginTitle">登录系统</h3>
         <FormItem  prop="account">
-          <Input v-model="formData.account" placeholder="请输入账号:" clearable prefix="ios-person-outline"/>
+          <Input v-model="formData.account" placeholder="请输入账号" clearable prefix="ios-person-outline"/>
         </FormItem>
         <FormItem  prop="password">
-          <Input v-model="formData.password" type="password" placeholder="请输入密码:" prefix="ios-lock-outline" icon="ios-eye-outline"/>
+          <Input v-model="formData.password" type="password" placeholder="请输入密码" prefix="ios-lock-outline" icon="ios-eye-outline" ref="password" @on-click="isShowPassword"/>
         </FormItem>
         <FormItem>
           <Checkbox v-model="isChecked" class="rememberPassword">记住密码</Checkbox>
@@ -42,6 +42,15 @@
         },
         mounted(){},
         methods:{
+          isShowPassword(){
+              if(this.$refs.password.type == "password"){
+                  this.$refs.password.type = "text"
+                  this.$refs.password.icon = "ios-eye-off"
+              }else {
+                  this.$refs.password.type = "password"
+                  this.$refs.password.icon = "ios-eye-outline"
+              }
+          },
           submitLogin(){
               this.logining = true
               alert("登录")
