@@ -13,13 +13,14 @@
           <Checkbox v-model="isChecked" class="rememberPassword">记住密码</Checkbox>
         </FormItem>
         <FormItem>
-          <Button type="primary" style="width: 100%" :loading="logining" @click="submitLogin">登录</Button>
+          <Button type="primary" style="width: 100%" :loading="loginLoading" @click="submitLogin">登录</Button>
         </FormItem>
       </Form>
     </div>
 </template>
 
 <script>
+  import {requestLogin} from "../api/api"
     export default{
         name:"Login",
         data () {
@@ -37,7 +38,7 @@
                     ]
                 },
                 isChecked:true,
-                logining:false
+                loginLoading:false
             }
         },
         mounted(){},
@@ -52,13 +53,34 @@
               }
           },
           submitLogin(){
-              this.logining = true
-              alert("登录")
+              this.$refs.formData.validate((valid)=>{
+                  if(valid){
+                      this.loginLoading = true;
+                      let params = Object.assign({},this.formData)
+                      requestLogin(params).then(({data})=>{
+                          let {code,msg,user} = data
+//                          alert(JSON.stringify(data))
+                          this.loginLoading = false
+                          if(code == 200){
+                              //成功提示
+                              this.$Message.success(msg)
+                              //缓存user
+                              sessionStorage.setItem("user",user)
+                              this.$router.push()
+                          }else {
+                              //请求失败
+                              this.$Message.error(msg)
+                          }
+                      })
+
+                  }else {
+                      this.$Message.error("请填写完所有信息")
+                  }
+              })
           }
         }
     }
 </script>
-
 <style lang="scss" scoped>
  .loginContainer {
    width: 400px;
@@ -69,6 +91,7 @@
    -webkit-border-radius: 15px;
    -moz-border-radius: 15px;
    border-radius: 15px;
+   /*background: url('/static/image/1-140406162034.jpg') no-repeat -100px -100px;*/
    .loginTitle{
      display: block;
      padding-bottom: 10px;
