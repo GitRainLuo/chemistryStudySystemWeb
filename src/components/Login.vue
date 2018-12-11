@@ -66,7 +66,7 @@
                               this.$Message.success(msg)
                               //缓存user
                               sessionStorage.setItem("user",user)
-                              this.$router.push()
+                              this.$router.push({path:"/elementsPeriodicTable"})
                           }else {
                               //请求失败
                               this.$Message.error(msg)

@@ -20,6 +20,7 @@ export default {
     });
     mock.onPost("/login").reply(config=>{
       // alert(JSON.stringify(config))
+      //post过来的是转义了的 相当于是JSON字符串  => JSON.parse 转换为对象
       let {account,password} = JSON.parse(config.data)
       return new Promise((resolve,reject)=>{
         let user = null;
