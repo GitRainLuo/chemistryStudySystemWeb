@@ -6,10 +6,13 @@ import router from './router'
 import iView from 'iview'
 import 'iview/dist/styles/iview.css'
 import Mock from "./mock/mock"
+import axios from "axios"
+import vueAxios from "vue-axios"
 
 Vue.config.productionTip = false
 
 Vue.use(iView)
+Vue.use(axios,vueAxios)
 Mock.bootstrap()
 /* eslint-disable no-new */
 new Vue({
