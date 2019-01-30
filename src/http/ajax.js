@@ -6,11 +6,11 @@
  */
 import axios from "axios"
 
-let urlcConfig = {
+let urlConfig = {
   baseURL:"http://127.0.0.1:8080"
 }
 let ajax = axios.create({
-  baseURL:urlcConfig.baseURL,
+  baseURL:urlConfig.baseURL,
   timeout:30000,
   withCredentials:true,
   maxRedirects:5,
