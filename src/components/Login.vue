@@ -13,7 +13,8 @@
           <Checkbox v-model="isChecked" class="rememberPassword">记住密码</Checkbox>
         </FormItem>
         <FormItem>
-          <Button type="primary" style="width: 100%" :loading="loginLoading" @click="submitLogin">登录</Button>
+          <Button type="primary" style="width: 45%" :loading="loginLoading" @click="submitLogin">登录</Button>
+          <Button type="primary" style="width: 45%;margin-left: 20px" @click="register">注册</Button>
         </FormItem>
       </Form>
     </div>
@@ -21,6 +22,7 @@
 
 <script>
   import {requestLogin} from "../api/api"
+  import {ajax} from "../../src/http/ajax"
     export default{
         name:"Login",
         data () {
@@ -57,26 +59,46 @@
                   if(valid){
                       this.loginLoading = true;
                       let params = Object.assign({},this.formData)
-                      requestLogin(params).then(({data})=>{
-                          let {code,msg,user} = data
-//                          alert(JSON.stringify(data))
-                          this.loginLoading = false
-                          if(code == 200){
-                              //成功提示
-                              this.$Message.success(msg)
-                              //缓存user
-                              sessionStorage.setItem("user",user)
-                              this.$router.push({path:"/elementsPeriodicTable"})
-                          }else {
-                              //请求失败
-                              this.$Message.error(msg)
+//                      requestLogin(params).then(({data})=>{
+//                          let {code,msg,user} = data
+////                          alert(JSON.stringify(data))
+//                          this.loginLoading = false
+//                          if(code == 200){
+//                              //成功提示
+//                              this.$Message.success(msg)
+//                              //缓存user
+//                              sessionStorage.setItem("user",user)
+//                              this.$router.push({path:"/home"})
+//                          }else {
+//                              //请求失败
+//                              this.$Message.error(msg)
+//                          }
+//                      })
+                        ajax.post("/user/login",params,{headers:{"Content-Type":"application/json;charset=utf-8"}}).then((res)=>{
+                          if(res.status == 200 && res.data){
+                              let rData = res.data.data
+                              if(res.data.data.code == 0){
+                                this.loginLoading = false
+                                this.$Message.success(rData.msg)
+                                sessionStorage.setItem("user",rData.user)
+                                this.$router.push({path:"/home"})
+                              }else {
+                                this.loginLoading = false
+                                this.$Message.error(rData.msg)
+                              }
                           }
-                      })
+                        }).catch((error)=>{
+                          alert("err")
+                          alert(JSON.stringify(error))
+                        })
 
                   }else {
                       this.$Message.error("请填写完所有信息")
                   }
               })
+          },
+          register(){
+              this.$router.push({path:"/register"})
           }
         }
     }

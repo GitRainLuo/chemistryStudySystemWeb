@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Button @click="test">test</Button>
+        <Button @click="login">test</Button>
     </div>
 </template>
 
@@ -61,6 +61,19 @@
                     alert("error")
                     alert(JSON.stringify(error))
                   })
+            },
+            login(){
+                alert("登录")
+                let params = {
+                    account:"111"
+                }
+                ajax.post("/user/login",params,{headers:{"Content-Type":"application/json;charset=utf-8"}}).then((res)=>{
+                    alert(1)
+                    alert(JSON.stringify(res))
+                }).catch((err)=>{
+                    alert("error")
+                    alert(JSON.stringify(err))
+                })
             }
         }
     }
