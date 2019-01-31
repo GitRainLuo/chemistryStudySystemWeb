@@ -81,7 +81,9 @@
                                 this.loginLoading = false
                                 this.$Message.success(rData.msg)
                                 sessionStorage.setItem("user",rData.user)
-                                this.$router.push({path:"/home"})
+                                setTimeout(()=>{
+                                  this.$router.push({path:"/home"})
+                                },500)
                               }else {
                                 this.loginLoading = false
                                 this.$Message.error(rData.msg)
