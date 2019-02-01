@@ -176,6 +176,8 @@
    .verificationCode{
      display: block;
      width: 100px;
+     font-weight: normal;
+     font-style: italic;
    }
  }
 </style>
