@@ -6,21 +6,21 @@
         <Row>
           <Col span="24">
             <FormItem label="账号:" prop="account">
-              <Input v-model="registerData.account" maxlength="11" placeholder="请输入账号(限数字)" clearable/>
+              <Input v-model="registerData.account"  maxlength="11" placeholder="请输入账号(限数字)" clearable/>
             </FormItem>
           </Col>
         </Row>
         <Row>
           <Col span="24">
             <FormItem label="密码:" prop="password">
-              <Input type="password" v-model="registerData.password" maxlength="16" placeholder="请输入密码"/>
+              <Input type="password" v-model="registerData.password" maxlength="16" placeholder="请输入密码" clearable/>
             </FormItem>
           </Col>
         </Row>
         <Row>
           <Col span="24">
             <FormItem label="重复密码:" prop="rePassWord">
-              <Input type="password" v-model="registerData.rePassWord" maxlength="16" placeholder="请重复输入密码"/>
+              <Input type="password" v-model="registerData.rePassWord" maxlength="16" placeholder="请重复输入密码" clearable/>
             </FormItem>
           </Col>
         </Row>
@@ -47,11 +47,13 @@
             </FormItem>
           </Col>
         </Row>
-        <Col>
-          <FormItem>
-            <Button type="primary" @click="submitRegister">提交</Button>
-          </FormItem>
-        </Col>
+        <Row>
+          <Col>
+            <FormItem>
+              <Button type="primary" @click="submitRegister" style="position: absolute;right: 0;">提交</Button>
+            </FormItem>
+          </Col>
+        </Row>
       </Form>
     </div>
 </template>
@@ -61,6 +63,19 @@
     export default{
         name:"Register",
         data () {
+            //验证限制账号长度
+            const accountValidate = (rule,value,callback)=>{
+                let reg = /^(admin|([1-9][0-9]{7,10}))$/
+                if(value != ""){
+                  if(value != "admin" && (value.length<8 || value.length>11)){
+                    callback(new Error("请输入8-11位数字账号"))
+                  }else if(!reg.test(value)){
+                    callback(new Error("账号格式不正确"))
+                  }
+                }else {
+                    callback()
+                }
+            }
             //验证重复输入密码与密码是否一致
             const confirmRePassWord = (rule,value,callback)=>{
               if(value == "" && this.registerData.password != ""){
@@ -81,9 +96,13 @@
                 registerRules:{
                     account:[
                       {required:true,message:"请输入账号",trigger:"blur"},
+//                      {
+//                          pattern:/^(admin|([1-9][0-9]{7,10}))$/,
+//                          message:"账号格式不正确",
+//                          trigger:"blur"
+//                      },
                       {
-                          pattern:/^(admin|([1-9][0-9]{7,10}))$/,
-                          message:"账号格式不正确",
+                          validator:accountValidate,
                           trigger:"blur"
                       }
                     ],
@@ -176,7 +195,7 @@
     width: 500px;
     height: auto;
     margin: 10px auto;
-    padding: 10px 40px 10px 20px;
+    padding: 10px 40px 20px 20px;
     border: 1px solid #ccc;
     -webkit-border-radius: 10px;
     border-radius: 10px;
