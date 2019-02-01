@@ -9,6 +9,16 @@
         <FormItem  prop="password">
           <Input v-model="formData.password" type="password" placeholder="请输入密码" prefix="ios-lock-outline" icon="ios-eye-outline" ref="password" @on-click="isShowPassword"/>
         </FormItem>
+        <FormItem prop="code">
+          <Row>
+            <Col span="12">
+              <Input v-model="formData.code" maxlength="4" placeholder="请输入验证码"/>
+            </Col>
+            <Col span="5">
+              <span class="verificationCode" @click="createVerificationCode">{{vCode}}</span>
+            </Col>
+          </Row>
+        </FormItem>
         <FormItem>
           <Checkbox v-model="isChecked" class="rememberPassword">记住密码</Checkbox>
         </FormItem>
@@ -26,10 +36,20 @@
     export default{
         name:"Login",
         data () {
+            const validateCode = (rule,value,callback)=>{
+                if(value == ""){
+                    callback(new Error("请输入验证码"))
+                }else if(value != "" && value != this.vCode.toLocaleLowerCase()){
+                    callback(new Error("验证码输入不正确,请重新输入"))
+                }else {
+                    callback()
+                }
+            };
             return {
                 formData:{
                     account:"",
                     password:"",
+                    code:""
                 },
                 formDataValidate:{
                     account:[
@@ -37,14 +57,27 @@
                     ],
                     password:[
                       {required:true,message:"请输入密码",trigger:"blur"}
+                    ],
+                    code:[
+                      {required:true,message:"请输入验证码",trigger:"blur"},
+                      {
+                          validator:validateCode,
+                          trigger:"blur"
+                      }
                     ]
                 },
                 isChecked:true,
-                loginLoading:false
+                loginLoading:false,
+                //验证码
+                vCode:""
             }
         },
-        mounted(){},
+        mounted(){
+            //生成随机验证码
+            this.createVerificationCode()
+        },
         methods:{
+          //密码框的查看明文与密文
           isShowPassword(){
               if(this.$refs.password.type == "password"){
                   this.$refs.password.type = "text"
@@ -54,6 +87,19 @@
                   this.$refs.password.icon = "ios-eye-outline"
               }
           },
+          //生成随机验证码
+          createVerificationCode(){
+              const random = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i",
+              "j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F",
+              "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+              let code = ""
+              for(let i = 0;i<4;i++){
+                  let index = Math.floor(Math.random()*62)
+                  code += random[index]
+              }
+              this.vCode = code;
+          },
+          //提交登录
           submitLogin(){
               this.$refs.formData.validate((valid)=>{
                   if(valid){
@@ -108,8 +154,8 @@
 <style lang="scss" scoped>
  .loginContainer {
    width: 400px;
-   height: 300px;
-   padding: 15px 15px 10px 15px;
+   height: auto;
+   padding: 15px 20px 10px 20px;
    margin: 0 auto;
    border: 1px solid #eaeaea;
    -webkit-border-radius: 15px;
@@ -126,6 +172,10 @@
    }
    .rememberPassword{
      float: left;
+   }
+   .verificationCode{
+     display: block;
+     width: 100px;
    }
  }
 </style>
