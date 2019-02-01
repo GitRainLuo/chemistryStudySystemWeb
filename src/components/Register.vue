@@ -141,11 +141,11 @@
         },
         methods:{
           submitRegister(){
-              alert("提交")
+//              alert("提交")
               this.$refs.registerForm.validate((valid)=>{
                   if(valid){
                       let params = Object.assign({},this.registerData)
-                      alert(JSON.stringify(params))
+//                      alert(JSON.stringify(params))
                       ajax.post("/user/register",params,{headers:{"Content-Type":"application/json;charset=utf-8"}}).then((res)=>{
 //                        alert(JSON.stringify(res))
                         if(res.status == 200 && res.data){
