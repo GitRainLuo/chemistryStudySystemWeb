@@ -61,6 +61,14 @@
     export default{
         name:"Register",
         data () {
+            //验证重复输入密码与密码是否一致
+            const confirmRePassWord = (rule,value,callback)=>{
+              if(value == "" && this.registerData.password != ""){
+                    callback(new Error("重复输入密码不能为空!"))
+              }else if(value != "" && value != this.registerData.password){
+                  callback(new Error("两次输入密码不一样,请重新输入"))
+              }
+            };
             return {
                 registerData:{
                     account:"",
@@ -83,7 +91,12 @@
                       {required:true,message:"请输入密码",trigger:"blur"}
                     ],
                     rePassWord:[
-                      {required:true,message:"请重复输入密码",trigger:"blur"}
+                      {required:true,message:"请重复输入密码",trigger:"blur"},
+                      //验证重复输入密码与密码是否一样
+                      {
+                          validator:confirmRePassWord,
+                          trigger:"blur"
+                      }
                     ],
                     userType:[
                       {required:true,message:"请选择账号类型",trigger:"change"}
@@ -131,9 +144,6 @@
               alert("提交")
               this.$refs.registerForm.validate((valid)=>{
                   if(valid){
-                    if(this.registerData.password != this.registerData.rePassWord){
-                        this.$Message.error("两次密码输入不一样,请重新输入")
-                    }else {
                       let params = Object.assign({},this.registerData)
                       alert(JSON.stringify(params))
                       ajax.post("/user/register",params,{headers:{"Content-Type":"application/json;charset=utf-8"}}).then((res)=>{
@@ -152,7 +162,6 @@
                       }).catch((error)=>{
                         alert(JSON.stringify(error))
                       })
-                    }
                   }else {
                       this.$Message.error("请完善信息")
                   }
