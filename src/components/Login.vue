@@ -179,7 +179,6 @@
                   if(document.cookie.indexOf(c_account)!= -1){
                       //初次切割
                       let cArr = document.cookie.split("; ")
-                    alert(cArr.length)
                       for(let i = 0;i<cArr.length;i++){
                           //再次切割
                           let cArr2 = cArr[i].split("=")
