@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--注册页面-->
-      <Form :model="registerData" :rules="registerRules" ref="registerForm" :label-width="85" label-position="right" class="register">
+      <Form :model="registerData" :rules="registerRules" ref="registerData" :label-width="85" label-position="right" class="register">
         <h3>注册</h3>
         <Row>
           <Col span="24">
@@ -71,6 +71,8 @@
                     callback(new Error("请输入8-11位数字账号"))
                   }else if(!reg.test(value)){
                     callback(new Error("账号格式不正确"))
+                  }else {
+                      callback()
                   }
                 }else {
                     callback()
@@ -78,10 +80,16 @@
             }
             //验证重复输入密码与密码是否一致
             const confirmRePassWord = (rule,value,callback)=>{
-              if(value == "" && this.registerData.password != ""){
-                    callback(new Error("重复输入密码不能为空!"))
-              }else if(value != "" && value != this.registerData.password){
+              if(this.registerData.password == ""){
+                  callback(new Error("请先输入密码"))
+              }else {
+                if(value == "" && this.registerData.password != ""){
+                  callback(new Error("重复输入密码不能为空!"))
+                }else if(value != "" && value != this.registerData.password){
                   callback(new Error("两次输入密码不一样,请重新输入"))
+                }else {
+                    callback()
+                }
               }
             };
             return {
@@ -151,17 +159,9 @@
                 ]
             }
         },
-        watch:{
-            "registerData.rePassWord":function (val) {
-                if(val != this.registerData.password){
-                  this.registerRules.rePassWord[0].message = "两次密码输入不一样,请重新输入"
-                }
-            }
-        },
         methods:{
           submitRegister(){
-//              alert("提交")
-              this.$refs.registerForm.validate((valid)=>{
+              this.$refs.registerData.validate((valid)=>{
                   if(valid){
                       let params = Object.assign({},this.registerData)
 //                      alert(JSON.stringify(params))

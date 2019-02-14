@@ -126,18 +126,21 @@
                               if(res.data.data.code == 0){
                                 this.loginLoading = false
                                 this.$Message.success(rData.msg)
-                                sessionStorage.setItem("user",rData.user)
+//                                alert(JSON.stringify(rData.user))
+                                sessionStorage.setItem("user",JSON.stringify(rData.user))
                                 setTimeout(()=>{
                                   this.$router.push({path:"/home"})
                                 },500)
                               }else {
                                 this.loginLoading = false
                                 this.$Message.error(rData.msg)
+                                //重新生成验证码
+                                this.createVerificationCode()
                               }
                           }
                         }).catch((error)=>{
-                          alert("err")
-                          alert(JSON.stringify(error))
+//                          alert("err")
+//                          alert(JSON.stringify(error))
                         })
 
                   }else {
@@ -164,7 +167,7 @@
    /*background: url('/static/image/1-140406162034.jpg') no-repeat -100px -100px;*/
    .loginTitle{
      display: block;
-     padding-bottom: 10px;
+     padding-bottom: 15px;
      text-align: center;
      font-family: Arial,"微软雅黑";
      font-size: 15px;
