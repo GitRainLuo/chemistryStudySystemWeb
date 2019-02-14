@@ -75,6 +75,8 @@
         mounted(){
             //生成随机验证码
             this.createVerificationCode()
+            //获取cookie
+            this.getCookie("account")
         },
         methods:{
           //密码框的查看明文与密文
@@ -103,6 +105,12 @@
           submitLogin(){
               this.$refs.formData.validate((valid)=>{
                   if(valid){
+                      //是否煮密码
+                      if(this.isChecked){
+                          this.setCookie(this.formData.account,this.formData.password,7)
+                      }else {
+                          this.clearCookie()
+                      }
                       this.loginLoading = true;
                       let params = Object.assign({},this.formData)
 //                      requestLogin(params).then(({data})=>{
@@ -129,7 +137,7 @@
 //                                alert(JSON.stringify(rData.user))
                                 sessionStorage.setItem("user",JSON.stringify(rData.user))
                                 setTimeout(()=>{
-                                  this.$router.push({path:"/home"})
+                                  this.$router.push({path:"/homePage"})
                                 },500)
                               }else {
                                 this.loginLoading = false
@@ -150,6 +158,45 @@
           },
           register(){
               this.$router.push({path:"/register"})
+          },
+          //设置cookie
+          setCookie(c_account,c_pwd,expiredays){
+              //获取时间
+              let exdate = new Date()
+              //保存时间
+//              exdate.setDate(exdate.getDate()+expiredays)
+              //保存天数
+              exdate.setTime(exdate.getTime()+24*60*60*1000*expiredays)
+              //字符串拼接cookie
+              window.document.cookie = "account"+"="+c_account+";path=/;expires="+exdate.toGMTString()
+              window.document.cookie = "password"+"="+c_pwd+";path=/;expires="+exdate.toGMTString()
+          },
+          //获取cookie
+          getCookie(c_account){
+//              alert(JSON.stringify(document.cookie))
+              if(document.cookie.length>0){
+                  //验证一下cookie 有自己设置的
+                  if(document.cookie.indexOf(c_account)!= -1){
+                      //初次切割
+                      let cArr = document.cookie.split("; ")
+                    alert(cArr.length)
+                      for(let i = 0;i<cArr.length;i++){
+                          //再次切割
+                          let cArr2 = cArr[i].split("=")
+                          //账号
+                          if(cArr2[0] == "account"){
+                              this.formData.account = cArr2[1]
+                          }else if(cArr2[0] == "password"){
+                              //密码
+                              this.formData.password = cArr2[1]
+                          }
+                      }
+                  }
+              }
+          },
+          //清除cookie
+          clearCookie(){
+              this.setCookie("","",-1)
           }
         }
     }
