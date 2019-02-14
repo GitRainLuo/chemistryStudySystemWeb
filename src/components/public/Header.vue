@@ -98,6 +98,12 @@
           width: 100px;
           position: absolute;
           right:0;
+          z-index: 999;
+          span{
+            display: inline-block;
+            width: 100px;
+            line-height: 2;
+          }
         }
       }
     }
