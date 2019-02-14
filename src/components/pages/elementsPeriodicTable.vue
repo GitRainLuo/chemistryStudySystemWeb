@@ -1,5 +1,6 @@
 <template>
     <div>
+        <nav-header></nav-header>
         <div class="container">
           <table class="table" cellspacing="0" cellpadding="0">
             <tr>
@@ -42,8 +43,13 @@
 <script>
     //将数据引过来
     import {elementsData} from "../../data/elmentsData"
+    //公共导航
+    import navHeader from "../public/NavHeader.vue"
     export default{
         name:"elementsPeriodicTable",
+        components:{
+            navHeader
+        },
         data () {
             return {
 //              elementsList:[
@@ -90,7 +96,7 @@
     .ulContainer{
       width: 80%;
       height: 570px;
-      margin: -40px auto 0 auto;
+      margin: 2px auto 0 auto;
       padding: 5px;
       border: 1px solid #ccc;
       li{
