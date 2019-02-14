@@ -5,6 +5,7 @@ import home from "@/components/Home"
 import elementsPeriodictable from "@/components/pages/elementsPeriodicTable"
 import register from "@/components/Register"
 import updateInfo from "@/components/personal/UpdateInfo"
+import homePage from "@/components/HomePage"
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path:"/home",
       name:"Home",
       component:home
+    },
+    {
+      path:"/homePage",
+      name:"homePage",
+      component:homePage
     },
     {
       path:"/elementsPeriodicTable",
