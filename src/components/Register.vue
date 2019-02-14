@@ -5,6 +5,13 @@
         <h3>注册</h3>
         <Row>
           <Col span="24">
+            <FormItem label="姓名:" prop="userName">
+              <Input v-model="registerData.userName" placeholder="请输入姓名" clearable/>
+            </FormItem>
+          </Col>
+        </Row>
+        <Row>
+          <Col span="24">
             <FormItem label="账号:" prop="account">
               <Input v-model="registerData.account"  maxlength="11" placeholder="请输入账号(限数字)" clearable/>
             </FormItem>
@@ -94,6 +101,7 @@
             };
             return {
                 registerData:{
+                    userName:"",
                     account:"",
                     password:"",
                     rePassWord:"",
@@ -102,6 +110,9 @@
                     userType:"",
                 },
                 registerRules:{
+                    userName:[
+                      {required:true,message:"请输入姓名",trigger:"blur"}
+                    ],
                     account:[
                       {required:true,message:"请输入账号",trigger:"blur"},
 //                      {
