@@ -1,6 +1,32 @@
 <template>
     <div>
         <div class="container">
+          <table class="table" cellspacing="0" cellpadding="0">
+            <tr>
+              <td>元素序号:</td>
+            </tr>
+            <tr>
+              <td>{{table.elementId}}</td>
+            </tr>
+            <tr>
+              <td>元素符号:</td>
+            </tr>
+            <tr>
+              <td>{{table.element}}</td>
+            </tr>
+            <tr>
+              <td>元素名:</td>
+            </tr>
+            <tr>
+              <td>{{table.elementName}}</td>
+            </tr>
+            <tr>
+              <td>相对原子质量:</td>
+            </tr>
+            <tr>
+              <td>{{table.elementRelativeMass}}</td>
+            </tr>
+          </table>
           <ul class="ulContainer">
             <!--<li v-for="item in elementsList">{{item.element}}</li>-->
             <li v-for="item in elementsList" :class="item.elementId ? 'addBorder': ''" @click="lookInfo(item)">
@@ -9,18 +35,6 @@
               <p class="bottom">{{item.elementRelativeMass}}</p>
             </li>
           </ul>
-          <table class="table" cellspacing="0" cellpadding="0">
-            <tr>
-              <td>元素序号:</td>
-              <td>{{table.elementId}}</td>
-              <td>元素符号:</td>
-              <td>{{table.element}}</td>
-              <td>元素名:</td>
-              <td>{{table.elementName}}</td>
-              <td>相对原子质量:</td>
-              <td>{{table.elementRelativeMass}}</td>
-            </tr>
-          </table>
         </div>
     </div>
 </template>
@@ -74,9 +88,9 @@
   .container{
     width: 100%;
     .ulContainer{
-      width: 1005px;
+      width: 80%;
       height: 570px;
-      margin: 0 auto;
+      margin: -40px auto 0 auto;
       padding: 5px;
       border: 1px solid #ccc;
       li{
@@ -115,19 +129,24 @@
       }
     }
     .table{
-      width: 1005px;
-      margin: 10px auto;
-      tr td:nth-child(1){
-        border-left: 1px solid #ccc;
+      width: 9%;
+      margin: 0 0.5% 0 0.5%;
+      float: left;
+      /*tr td:nth-child(1){*/
+        /*border-left: 1px solid #ccc;*/
+        /*border-top: 1px solid #ccc;*/
+      /*}*/
+      tr:nth-child(1) td{
+        border-top: 1px solid #ccc;
       }
       tr td{
         /*border-left: 1px solid #ccc;*/
         /*border-top: 1px solid #ccc;*/
         width: 100px;
-        height: 20px;
-        line-height: 20px;
+        height: 25px;
+        line-height: 25px;
         border: 1px solid #ccc;
-        border-left: none;
+        border-top: none;
       }
     }
   }
