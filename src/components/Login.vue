@@ -12,7 +12,7 @@
         <FormItem prop="code">
           <Row>
             <Col span="12">
-              <Input v-model="formData.code" maxlength="4" placeholder="请输入验证码"/>
+              <Input v-model="formData.code" maxlength="4" placeholder="请输入验证码" @keyup.enter.native="submitLogin"/>
             </Col>
             <Col span="5">
               <span class="verificationCode" @click="createVerificationCode">{{vCode}}</span>
