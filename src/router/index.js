@@ -4,6 +4,7 @@ import login from "@/components/Login"
 import home from "@/components/Home"
 import elementsPeriodictable from "@/components/pages/elementsPeriodicTable"
 import register from "@/components/Register"
+import updateInfo from "@/components/personal/UpdateInfo"
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path:"/register",
       name:"register",
       component:register
+    },
+    {
+      path:"/updateInfo",
+      name:"updateInfo",
+      component:updateInfo
     },
     {
       path:"/home",
