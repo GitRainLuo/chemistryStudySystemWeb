@@ -17,6 +17,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  /*margin-top: 60px;*/
+  /*用到公共头部 将此margin-top改为0*/
+  margin-top: 0;
 }
 </style>
