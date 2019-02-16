@@ -80,6 +80,8 @@
       /*color: #fff;*/
       .logo{
         text-align: center;
+        font-size: 24px;
+        font-style: italic;
         /*background-color: aqua;*/
       }
       .userInfo{
