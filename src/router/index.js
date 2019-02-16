@@ -6,6 +6,7 @@ import elementsPeriodictable from "@/components/pages/elementsPeriodicTable"
 import register from "@/components/Register"
 import updateInfo from "@/components/personal/UpdateInfo"
 import homePage from "@/components/HomePage"
+import chemicalEquation from "@/components/pages/ChemicalEquation"
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       path:"/elementsPeriodicTable",
       name:"elementsPeriodicTable",
       component:elementsPeriodictable
+    },
+    {
+      path:"/ChemicalEquation",
+      name:"ChemicalEquation",
+      component:chemicalEquation
     }
   ]
 })
