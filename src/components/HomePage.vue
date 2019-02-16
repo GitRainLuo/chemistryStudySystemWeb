@@ -1,7 +1,9 @@
 <template>
     <div>
       <p-header></p-header>
+      <!--撑开高度60px-->
       <div style="margin-top: 60px"></div>
+      <!--<div style="padding: 30px 0"></div>-->
       <nav-header></nav-header>
     </div>
 </template>
