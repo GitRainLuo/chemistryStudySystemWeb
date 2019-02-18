@@ -3,7 +3,51 @@
     <div>
       <nav-header></nav-header>
       <h3>方程式大全</h3>
-      <Table :columns="table.equationColumns" :data="table.equationData" border stripe no-data-text="暂无数据" style="width: 100%;margin: 10px auto"></Table>
+      <!--查询条件-->
+      <Form :model="searchCondition" ref="searchCondition" :label-width="85" label-position="center">
+        <Row>
+          <Col span="4">
+            <FormItem label="反应物:" prop="reactantName">
+              <Input v-model="searchCondition.reactantName" placeholder="输入反应物查询有关反应" clearable/>
+            </FormItem>
+          </Col>
+          <Col span="4">
+            <FormItem label="生成物:" prop="resultantName">
+              <Input v-model="searchCondition.resultantName" placeholder="输入生成物查询有关反应" clearable/>
+            </FormItem>
+          </Col>
+          <Col span="4">
+            <FormItem label="反应条件:" prop="reactionCondition">
+              <Input v-model="searchCondition.reactionCondition" placeholder="输入反应条件" clearable/>
+            </FormItem>
+          </Col>
+          <Col span="4">
+            <FormItem label="方程式说明:" prop="equationDes">
+              <Input v-model="searchCondition.equationDes" placeholder="输入方程式说明" clearable/>
+            </FormItem>
+          </Col>
+          <Col span="4">
+            <FormItem label="反应类型:" prop="reactionType">
+              <Select v-model="searchCondition.reactionType" transfer="true" clearable>
+                <Option v-for="item in reactTypeList" :key="item.code" :value="item.code">{{item.description}}</Option>
+              </Select>
+            </FormItem>
+          </Col>
+          <Col span="2">
+            <Button @click="searchInfo">查询</Button>
+          </Col>
+          <Col span="1">
+            <Button @click="clearCondition">清空</Button>
+          </Col>
+        </Row>
+      </Form>
+      <div class="function">
+        <p class="tips">共找到符合条件<span style="color: aquamarine">{{table.total}}</span>个方程式</p>
+        <Button class="export">导出Excel</Button>
+      </div>
+      <!--表格-->
+      <Table :columns="table.equationColumns" :data="table.equationData" border stripe no-data-text="暂无数据" style="width: 100%;margin: 0 5px"></Table>
+      <!--分页-->
       <Page :total="table.total" show-total show-elevator show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange"></Page>
       <!--查看详细弹框-->
       <Modal v-model="showDetails" draggable scrollable  title="详细"></Modal>
@@ -12,6 +56,7 @@
 
 <script>
     import navHeader from "../public/NavHeader.vue"
+    import {ajax} from "../../http/ajax"
     export default{
         name:"ChemicalEquation",
         components:{
@@ -22,9 +67,13 @@
                  table:{
                    equationColumns:[
                      {
+                       type:"selection",
+                       width:50
+                     },
+                     {
                        type:"index",
                        title:"编号",
-//                       width:70,
+                       width:70,
                        align:"center"
                      },
                      {
@@ -45,8 +94,8 @@
                            }
 //                           alert(str.charAt(i))
                            //let nAsc = str.charAt(i+1)
-                           //是数字 且前面一个不是数字的 还要抛开等于号
-                           if(asc>=49 && asc<=57 && (lAsc<49 || lAsc>57) && lAsc != 61){
+                           //是数字 且前面一个不是数字的 还要抛开等于号和加号
+                           if(asc>=49 && asc<=57 && (lAsc<49 || lAsc>57) && lAsc != 61 && lAsc != 43){
 //                               alert(str.charAt(i-1))
 //                             alert(i)
                              arr.push(h("sub",{},str.charAt(i)))
@@ -60,7 +109,7 @@
                        }
                      },
                      {
-                       key:"equationName",
+                       key:"equationDes",
                        title:"方程式说明",
 //                       width:150,
                        align:"center"
@@ -130,7 +179,7 @@
                        align:"center"
                      },
                      {
-                       key:"reactionType",
+                       key:"reactionTypeName",
                        title:"反应类型",
 //                       width:150,
                        align:"center"
@@ -161,53 +210,59 @@
                      }
                    ],
                    equationData:[
-                     {
-                       equation:"2H2+O2=2H2O",
-                       equationName:"氢气燃烧",
-                       reactant:"H2,O2",
-                       reactantName:"氢气,氧气",
-                       reactionCondition:"点燃",
-                       resultant:"H2O",
-                       resultantName:"水",
-                       reactionType:"氧化还原反应"
-                     },
-                     {
-                       equation:"2KMnO4=K2MnO4+MnO2+O2",
-                       equationName:"高锰酸钾分解制氧气",
-                       reactant:"KMnO4",
-                       reactantName:"高锰酸钾",
-                       reactionCondition:"加热",
-                       resultant:"K2MnO4,MnO2,O2",
-                       resultantName:"锰酸钾,二氧化锰,氧气",
-                       reactionType:"分解反应"
-                     },
-                     {
-                       equation:"Fe2O3+2Al=Al2O3+2Fe",
-                       equationName:"铝热反应主反应",
-                       reactant:"Fe2O3,Al",
-                       reactantName:"三氧化二铁,铝",
-                       reactionCondition:"高温",
-                       resultant:"Al2O3,Fe",
-                       resultantName:"三氧化二铝,铁",
-                       reactionType:"置换反应"
-                     },
-                     {
-                       equation:"NaAlO2+H2O+HCL=AL(OH)3+NaCl",
-                       equationName:"制氢氧化铝",
-                       reactant:"NaALO2,H2O,HCL",
-                       reactantName:"铝酸钠,盐酸",
-                       reactionCondition:"",
-                       resultant:"AL(OH)3,NaCl",
-                       resultantName:"氢氧化铝,氯化钠",
-                       reactionType:""
-                     }
+//                     {
+//                       equation:"2H2+O2=2H2O",
+//                       equationDes:"氢气燃烧",
+//                       reactant:"H2,O2",
+//                       reactantName:"氢气,氧气",
+//                       reactionCondition:"点燃",
+//                       resultant:"H2O",
+//                       resultantName:"水",
+//                       reactionTypeName:"氧化还原反应"
+//                     }
                    ],
                    total:0,
                    page:1,
                    size:10
                  },
-                showDetails:false
+                showDetails:false,
+                searchCondition:{
+                    reactantName:"",
+                    resultantName:"",
+                    reactionCondition:"",
+                    equationDes:"",
+                    reactionType:"",
+                    reactionTypeName:"",
+                },
+                reactTypeList:[
+                  {
+                    code:"YH",
+                    description:"氧化反应"
+                  },
+                  {
+                    code:"HY",
+                    description:"还原反应"
+                  },
+                  {
+                    code:"ZH",
+                    description:"置换反应"
+                  },
+                  {
+                    code:"FJ",
+                    description:"分解反应"
+                  },
+                  {
+                    code:"YHHY",
+                    description:"氧化还原反应"
+                  }
+                ]
             }
+        },
+        mounted(){
+            //获取数据
+            this.getData()
+        },
+        watch:{
         },
         methods:{
           //页数改变
@@ -217,6 +272,59 @@
           //每页显示条数(size)改变
           pageSizeChange(size){
               this.table.size = size
+          },
+          //查询
+          searchInfo(){
+            this.getData()
+          },
+          //清空条件
+          clearCondition(){
+              //使用此方法清空表单 需要在formItem使用prop
+              this.$refs.searchCondition.resetFields()
+          },
+          //获取数据
+          getData(){
+              let page = this.table.page
+              let size = this.table.size
+              let params = this.searchCondition
+//              //反应类型
+//              for(let i = 0;i<this.reactTypeList.length;i++){
+//                if(this.searchCondition.reactionType == this.reactTypeList[i].code){
+//                  this.searchCondition.reactionTypeName = this.reactTypeList[i].description
+//                }
+//              }
+//              let params = {
+//                  reactantName:this.searchCondition.reactantName,
+//                  resultantName:this.searchCondition.resultantName,
+//                  reactionCondition:this.searchCondition.reactionCondition,
+//                  equationDes:this.searchCondition.equationDes,
+//                  reactionType:this.searchCondition.reactionType ? this.searchCondition.reactionType:"",
+//                  reactionTypeName:this.searchCondition.reactionTypeName,
+//              }
+              params.page = page
+              params.size = size
+              //清空后将reactionType置为空
+              if(!params.reactionType){
+                  params.reactionType = ""
+              }
+//              alert(JSON.stringify(params))
+              ajax.post("/equation/findEquationDataList?",params,{headers:{"Content-Type":"application/json;charset=utf-8"}}).then((response)=>{
+//                  alert(JSON.stringify(response))
+                  if(response.status == 200 && response.data){
+                      //内容
+                      this.table.equationData = response.data.content
+                      //alert(JSON.stringify(this.table.equationData ))
+                      //总数
+                      this.table.total = response.data.numberOfElements
+                      //response.data.totalPages 总页数
+                      //response.data.number  response.data.size
+                  }else {
+                      this.table.equationData = []
+                      this.table.total = 0
+                  }
+              }).catch((err)=>{
+                  alert(JSON.stringify(err))
+              })
           }
         }
     }
@@ -224,6 +332,24 @@
 
 <style lang="scss" scoped>
   h3{
-    margin: 5px auto;
+    margin: 10px auto;
+  }
+  .function{
+    position: relative;
+    width: 100%;
+    height: 30px;
+    margin-bottom: 10px;
+    .tips{
+      float: left;
+      width: 200px;
+      height:30px;
+      margin-left: 10px;
+      line-height: 30px;
+      text-align: center;
+    }
+    .export{
+      position: absolute;
+      left: 210px;
+    }
   }
 </style>
