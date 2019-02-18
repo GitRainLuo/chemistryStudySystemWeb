@@ -205,7 +205,7 @@
    width: 400px;
    height: auto;
    padding: 15px 20px 10px 20px;
-   margin: 0 auto;
+   margin: 60px auto;
    border: 1px solid #eaeaea;
    -webkit-border-radius: 15px;
    -moz-border-radius: 15px;
