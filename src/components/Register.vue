@@ -58,6 +58,7 @@
           <Col>
             <FormItem>
               <Button type="primary" @click="submitRegister" style="position: absolute;right: 0;">提交</Button>
+              <Button type="default" @click="goBack" class="goBack">返回上一页</Button>
             </FormItem>
           </Col>
         </Row>
@@ -171,6 +172,7 @@
             }
         },
         methods:{
+          //注册提交
           submitRegister(){
               this.$refs.registerData.validate((valid)=>{
                   if(valid){
@@ -196,6 +198,10 @@
                       this.$Message.error("请完善信息")
                   }
               })
+          },
+          //返回上一页
+          goBack(){
+              this.$router.go(-1)
           }
         }
     }
@@ -217,6 +223,10 @@
       margin:5px 0;
       line-height: 30px;
       text-align: center;
+    }
+    .goBack{
+      float: right;
+      margin-right: 65px;
     }
   }
 </style>

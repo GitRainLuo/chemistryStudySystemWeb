@@ -41,6 +41,7 @@
             <Col span="24">
               <FormItem>
                 <Button type="primary" @click="updateSubmit" class="updateBtn" :loading="loading">提交</Button>
+                <Button type="default" @click="goBack" class="goBack">返回上一页</Button>
               </FormItem>
             </Col>
           </Row>
@@ -112,6 +113,10 @@
                   }
               })
           },
+          //返回上一页
+          goBack(){
+              this.$router.go(-1)
+          }
         },
         mounted(){
             //获取缓存
@@ -140,6 +145,10 @@
       position: absolute;
       right: 0;
       width: 100px;
+    }
+    .goBack{
+      position: absolute;
+      right: 110px;
     }
   }
 </style>
