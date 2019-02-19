@@ -28,7 +28,7 @@
           </Col>
           <Col span="4">
             <FormItem label="反应类型:" prop="reactionType">
-              <Select v-model="searchCondition.reactionType" transfer="true" clearable>
+              <Select v-model="searchCondition.reactionType" :transfer="true" clearable multiple>
                 <Option v-for="item in reactTypeList" :key="item.code" :value="item.code">{{item.description}}</Option>
               </Select>
             </FormItem>
@@ -231,8 +231,7 @@
                     resultantName:"",
                     reactionCondition:"",
                     equationDes:"",
-                    reactionType:"",
-                    reactionTypeName:"",
+                    reactionType:[],
                 },
                 reactTypeList:[
                   {
@@ -305,10 +304,10 @@
               params.size = size
               //清空后将reactionType置为空
               if(!params.reactionType){
-                  params.reactionType = ""
+                  params.reactionType = []
               }
 //              alert(JSON.stringify(params))
-              ajax.post("/equation/findEquationDataList?",params,{headers:{"Content-Type":"application/json;charset=utf-8"}}).then((response)=>{
+              ajax.post("/equation/findEquationDataList",params,{headers:{"Content-Type":"application/json;charset=utf-8"}}).then((response)=>{
 //                  alert(JSON.stringify(response))
                   if(response.status == 200 && response.data){
                       //内容
