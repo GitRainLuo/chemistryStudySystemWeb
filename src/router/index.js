@@ -7,6 +7,7 @@ import register from "@/components/Register"
 import updateInfo from "@/components/personal/UpdateInfo"
 import homePage from "@/components/HomePage"
 import chemicalEquation from "@/components/pages/ChemicalEquation"
+import notFound from "@/components/NotFound"
 //路由懒加载
 // const Foo = () => Promise.resolve({ /* 组件定义对象 */ })
 // import('./Foo.vue') // 返回 Promise
@@ -70,6 +71,11 @@ export default new Router({
       meta:{
         requireAuth:true
       }
+    },
+    //404 notfound
+    {
+      path:"*",
+      component:notFound
     }
   ],
   //滚动行为
@@ -101,3 +107,30 @@ export default new Router({
     }
   }
 })
+
+// const routes = [
+//   {}
+// ]
+// routes.push({
+//   path:"*",
+//   component:notFound
+// })
+// export default routes
+
+// const router = new Router({
+//   routes:[
+//     {}
+//   ]
+// })
+// router.beforeEach((to,from,next)=>{
+//   if(to.matched.length == 0){
+//     if(from.name){
+//       next({
+//         name:from.name
+//       })
+//     }else {
+//       next("/notFound")
+//     }
+//   }
+// })
+// export default  router
