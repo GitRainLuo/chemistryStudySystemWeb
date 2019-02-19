@@ -43,7 +43,7 @@
       </Form>
       <div class="function">
         <p class="tips">共找到符合条件<span style="color: aquamarine">{{table.total}}</span>个方程式</p>
-        <Button class="export">导出Excel</Button>
+        <Button class="export" @click.native="exportExcel" :loading = "exportLoading">导出Excel</Button>
       </div>
       <!--表格-->
       <Table :columns="table.equationColumns" :data="table.equationData" border stripe no-data-text="暂无数据" style="width: 100%;margin: 0 5px"></Table>
@@ -254,7 +254,9 @@
                     code:"YHHY",
                     description:"氧化还原反应"
                   }
-                ]
+                ],
+                exportLoading:false,
+                exportData:[]
             }
         },
         mounted(){
@@ -262,6 +264,13 @@
             this.getData()
         },
         watch:{
+            //导出情况一使用
+            "exportData":function () {
+                let _this = this
+                _this.$nextTick(()=>{
+                    this.exportDataToExcel()
+                })
+            }
         },
         methods:{
           //页数改变
@@ -324,14 +333,74 @@
               }).catch((err)=>{
                   alert(JSON.stringify(err))
               })
+          },
+          //导出excel
+          exportExcel(){
+            this.exportLoading = true
+//              //情况一 直接导出 相当于跳过查询直接导出 需要先拿数据
+//              let param = this.searchCondition
+//              param.page = this.table.page
+//              param.size = this.table.size
+//              ajax.post("/equation/findEquationDataList",param,{headers:{"Content-Type":"application/json;charset=utf-8"}}).then(res=>{
+//                  if(res.status == 200 && res.data){
+//                      this.exportData = res.data.content
+//                  }else {
+//                      this.exportData = []
+//                  }
+//              }).catch(err=>{
+//                  alert(JSON.stringify(err))
+//              })
+            //情况二 先查询再导出 导出的是查询出来的数据
+            this.exportDataToExcel()
+          },
+          exportDataToExcel(){
+            let _this = this
+            require.ensure([],()=>{
+              //Export2Excel.js地址
+              const {export_json_to_excel} = require("../../assets/export/Export2Excel")
+              //头部
+              const tHeader = this.valueToArr(_this.table.equationColumns,"title")
+//              alert("tHeader:"+JSON.stringify(tHeader))
+              //过滤条件
+              const filterVal = this.valueToArr(_this.table.equationColumns,"key")
+//              alert("filterKey:"+JSON.stringify(filterVal))
+              //data
+              const listData = _this.table.equationData
+              //导出的data
+              const jsonData = this.formatJson(filterVal,listData)
+//              alert("data:"+jsonData)
+              export_json_to_excel(tHeader,jsonData,"方程式列表")
+              this.exportLoading = false
+            })
+          },
+          //导出用 将数值转化为数组
+          valueToArr(target,name){
+              let arr = []
+              //去除不需要的前两项以及最后一项(i从2开始)
+              for(let i = 2;i<target.length-1;i++){
+                  arr.push(target[i][name])
+              }
+              return arr
+          },
+          //转json
+          formatJson(filterVal,jsonData){
+              console.log("jsonData:"+JSON.stringify(jsonData))
+            return jsonData.map(v =>filterVal.map(j => v[j]))
           }
         }
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   h3{
     margin: 10px auto;
+  }
+  //选择下拉框样式
+  .ivu-select-selection{
+    height: 32px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .function{
     position: relative;
