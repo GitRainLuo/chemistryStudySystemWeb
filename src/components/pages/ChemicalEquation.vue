@@ -48,15 +48,51 @@
       <!--表格-->
       <Table :columns="table.equationColumns" :data="table.equationData" border stripe no-data-text="暂无数据" style="width: 100%;margin: 0 5px"></Table>
       <!--分页-->
-      <Page :total="table.total" show-total show-elevator show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange"></Page>
+      <Page :total="table.total" show-total show-elevator show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" style="margin-top: 5px"></Page>
       <!--查看详细弹框-->
-      <Modal v-model="showDetails" draggable scrollable  title="详细"></Modal>
+      <Modal v-model="showDetails" draggable scrollable title="详细" class="modal">
+        <Form :label-width="85" label-position="right">
+          <Row>
+            <Col>
+              <FormItem label="方程式:">
+                <!--<Input v-model="curEquationDetails.equation" readonly/>-->
+                <span>{{curEquationDetails.equation}}</span>
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FormItem label="反应类型:">
+                <!--<Input v-model="curEquationDetails.equation" readonly/>-->
+                <span>{{curEquationDetails.reactionTypeName}}</span>
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FormItem label="方程式说明:">
+                <!--<Input v-model="curEquationDetails.equation" readonly/>-->
+                <span>{{curEquationDetails.equationDes}}</span>
+              </FormItem>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <FormItem label="详细介绍:">
+                <!--<Input v-model="curEquationDetails.equation" readonly/>-->
+                <Input type="textarea" v-model="curEquationDetails.equationDes" readonly/>
+              </FormItem>
+            </Col>
+          </Row>
+        </Form>
+      </Modal>
     </div>
 </template>
 
 <script>
     import navHeader from "../public/NavHeader.vue"
     import {ajax} from "../../http/ajax"
+    import equationReactionType from "../../data/reactionType"
     export default{
         name:"ChemicalEquation",
         components:{
@@ -201,7 +237,9 @@
                                  on:{
                                      click:()=>{
 //                                         alert(row.equation)
-                                         alert(this.table.equationData[index].equation)
+//                                         alert(this.table.equationData[index].equation)
+                                       this.curEquationDetails = Object.assign({},row)
+//                                       alert(JSON.stringify(this.curEquationDetails))
                                        this.showDetails = true
                                      }
                                  }
@@ -233,35 +271,21 @@
                     equationDes:"",
                     reactionType:[],
                 },
-                reactTypeList:[
-                  {
-                    code:"YH",
-                    description:"氧化反应"
-                  },
-                  {
-                    code:"HY",
-                    description:"还原反应"
-                  },
-                  {
-                    code:"ZH",
-                    description:"置换反应"
-                  },
-                  {
-                    code:"FJ",
-                    description:"分解反应"
-                  },
-                  {
-                    code:"YHHY",
-                    description:"氧化还原反应"
-                  }
-                ],
+                reactTypeList:[],
                 exportLoading:false,
-                exportData:[]
+                //情况一导出的数据
+                exportData:[],
+                //当前行的方程式详情
+                curEquationDetails:{},
             }
         },
         mounted(){
+            //获取反应类型
+            this.reactTypeList = equationReactionType
             //获取数据
             this.getData()
+            console.log(this.$router)
+            console.log(this.$route)
         },
         watch:{
             //导出情况一使用
