@@ -8,7 +8,9 @@
     export default{
         name:"NotFound",
         data () {
-            return {msg: '这个是模板页'}
+            return {
+                msg:"404 NotFound"
+            }
         }
     }
 </script>
