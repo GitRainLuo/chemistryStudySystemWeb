@@ -62,7 +62,10 @@ export default new Router({
     {
       path:"/elementsPeriodicTable",
       name:"elementsPeriodicTable",
-      component:elementsPeriodicTable
+      component:elementsPeriodicTable,
+      meta:{
+        requireAuth:true
+      }
     },
     {
       path:"/ChemicalEquation",
