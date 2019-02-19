@@ -15,6 +15,31 @@ Vue.use(iView)
 Vue.use(axios,vueAxios)
 Mock.bootstrap()
 /* eslint-disable no-new */
+
+//路由导航守卫
+//全局前置守卫
+router.beforeEach((to,from,next)=>{
+  //根据meta的是否登录权限限制 (meta.requireAuth)
+  if(to.matched.some(res => res.meta.requireAuth)){
+    //判断是否登录
+    if(sessionStorage.getItem("user")){
+      //有登陆
+      next()
+    }else {
+      //未登录
+      next({
+        path:"/login",
+        query:{redirect:to.fullPath}
+      })
+    }
+  }else {
+    next()
+  }
+})
+
+//全局后置钩子
+router.afterEach((to,from)=>{
+})
 new Vue({
   el: '#app',
   router,
