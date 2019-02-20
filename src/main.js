@@ -8,6 +8,7 @@ import 'iview/dist/styles/iview.css'
 import Mock from "./mock/mock"
 import axios from "axios"
 import vueAxios from "vue-axios"
+import store from "./store/store"
 
 Vue.config.productionTip = false
 
@@ -43,6 +44,8 @@ router.afterEach((to,from)=>{
 new Vue({
   el: '#app',
   router,
+  //全局所有子组件注入store
+  store,
   components: { App },
   template: '<App/>'
 })
