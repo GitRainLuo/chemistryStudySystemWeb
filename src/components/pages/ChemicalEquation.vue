@@ -80,7 +80,7 @@
             <Col>
               <FormItem label="详细介绍:">
                 <!--<Input v-model="curEquationDetails.equation" readonly/>-->
-                <Input type="textarea" v-model="curEquationDetails.equationDes" readonly/>
+                <Input type="textarea" v-model="curEquationDetails.equationDes" :autosize="true" readonly/>
               </FormItem>
             </Col>
           </Row>
