@@ -142,12 +142,20 @@
                                 //新增有些需要登录权限的页面未登录时跳转登录页面 登录成功时直接跳转指向页面
                                 setTimeout(()=>{
                                   console.log(this.$route)
+                                  console.log(this.$router)
                                     if(this.$route.query.redirect){
                                         let redirect = this.$route.query.redirect
                                         this.$router.push(redirect)
                                     }else {
                                         this.$router.push({path:"/homePage"})
                                     }
+                                    //或者
+//                                    if(this.$router.history.current.query.redirect){
+//                                      let redirect = this.$router.history.current.query.redirect
+//                                      this.$router.push(redirect)
+//                                    }else {
+//                                        this.$router.push({path:"/homePage"})
+//                                    }
                                 })
                               }else {
                                 this.loginLoading = false
