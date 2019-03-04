@@ -14,7 +14,7 @@
         <Col span="4" class="avater">
           <div class="avaterContainer">
             <Dropdown>
-              <span>设置</span>
+              <span>设置<Icon type="ios-arrow-down" class="dropIcon" /></span>
               <DropdownMenu slot="list">
                 <DropdownItem @click.native="updateInfo">修改信息</DropdownItem>
                 <DropdownItem @click.native="logout">退出登录</DropdownItem>
@@ -105,6 +105,10 @@
             display: inline-block;
             width: 100px;
             line-height: 2;
+            cursor: pointer;
+            .dropIcon{
+              margin-left: 5px;
+            }
           }
         }
       }
