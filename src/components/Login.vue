@@ -136,9 +136,19 @@
                                 this.$Message.success(rData.msg)
 //                                alert(JSON.stringify(rData.user))
                                 sessionStorage.setItem("user",JSON.stringify(rData.user))
+//                                setTimeout(()=>{
+//                                  this.$router.push({path:"/homePage"})
+//                                },500)
+                                //新增有些需要登录权限的页面未登录时跳转登录页面 登录成功时直接跳转指向页面
                                 setTimeout(()=>{
-                                  this.$router.push({path:"/homePage"})
-                                },500)
+                                  console.log(this.$route)
+                                    if(this.$route.query.redirect){
+                                        let redirect = this.$route.query.redirect
+                                        this.$router.push(redirect)
+                                    }else {
+                                        this.$router.push({path:"/homePage"})
+                                    }
+                                })
                               }else {
                                 this.loginLoading = false
                                 this.$Message.error(rData.msg)
