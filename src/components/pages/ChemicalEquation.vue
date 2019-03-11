@@ -98,6 +98,8 @@
         components:{
             navHeader
         },
+        //methods 直接this.reload()实现刷新
+        inject:["reload"],
         data () {
             return {
                  table:{
