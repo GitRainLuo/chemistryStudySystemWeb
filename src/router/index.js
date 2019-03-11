@@ -5,9 +5,16 @@ import home from "@/components/Home"
 import elementsPeriodicTable from "@/components/pages/elementsPeriodicTable"
 import register from "@/components/Register"
 import updateInfo from "@/components/personal/UpdateInfo"
-import homePage from "@/components/HomePage"
+// import homePage from "@/components/HomePage"
 import chemicalEquation from "@/components/pages/ChemicalEquation"
 import notFound from "@/components/NotFound"
+import examQuestion from "@/components/pages/onlineTest/ExamQuestion"
+import testTable from "@/components/pages/testTable"
+
+//进行页面按需加载的引入方式
+const homePage = r => require.ensure([],() => r(require("@/components/HomePage")))
+
+const test = m => require.ensure([],()=>m(require("@/components/test/test")))
 //路由懒加载
 // const Foo = () => Promise.resolve({ /* 组件定义对象 */ })
 // import('./Foo.vue') // 返回 Promise
@@ -71,9 +78,29 @@ export default new Router({
       path:"/ChemicalEquation",
       name:"ChemicalEquation",
       component:chemicalEquation,
+      //单独路由独享组件
+      beforeEnter:(to,from,next)=>{
+        console.log("即将进入...")
+        next()
+      },
       meta:{
         requireAuth:true
       }
+    },
+    {
+      path:"/examQuestion",
+      name:"ExamQuestion",
+      component:examQuestion
+    },
+    {
+      path:"/testTable",
+      name:"testTable",
+      component:testTable
+    },
+    {
+      path:"/test",
+      name:"Test",
+      component:test
     },
     //404 notfound
     {
