@@ -1,5 +1,9 @@
 <template>
     <div class="exam" v-cloak>
+        <div class="navHeader">
+          <nav-header></nav-header>
+        </div>
+        <div style="margin-top: 40px"></div>
         <div class="titleContainer">
           <h2 class="title">在线测试</h2>
           <p>欢迎参加本次测试,本次测试时间为90分钟，满分100分</p>
@@ -63,9 +67,13 @@
 </template>
 
 <script>
+    import navHeader from "../../public/NavHeader.vue"
     import {ajax} from "../../../http/ajax"
     export default{
       name:"ExamQuestion",
+      components:{
+          navHeader
+      },
         data () {
             return {
                 singleQuestionList:[],
@@ -363,9 +371,15 @@ body{
 }
 .exam{
   width: 100%;
-  .time{
+  .navHeader{
+    width: 100%;
     position: fixed;
     top:0;
+    z-index: 1;
+  }
+  .time{
+    position: fixed;
+    top:40px;
     right: 10px;
     width: 200px;
     padding: 5px;
