@@ -10,7 +10,7 @@
             <li><router-link to="/ChemicalEquation">方程式大全</router-link></li>
             <li><router-link to="/elementsPeriodicTable">实验介绍</router-link></li>
             <li><router-link to="/elementsPeriodicTable">教学视频</router-link></li>
-            <li><router-link to="/elementsPeriodicTable">在线测试</router-link></li>
+            <li><router-link to="/examQuestion">在线测试</router-link></li>
           </ul>
         </div>
       </div>
