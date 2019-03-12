@@ -15,7 +15,8 @@
               <Input v-model="formData.code" maxlength="4" placeholder="请输入验证码" @keyup.enter.native="submitLogin"/>
             </Col>
             <Col span="5">
-              <span class="verificationCode" @click="createVerificationCode">{{vCode}}</span>
+              <!--<span class="verificationCode" @click="createVerificationCode">{{vCode}}</span>-->
+              <identify class="verificationCode" :verificationCode="verificationCode" @click.native="refreshVerification"></identify>
             </Col>
           </Row>
         </FormItem>
@@ -33,13 +34,18 @@
 <script>
   import {requestLogin} from "../api/api"
   import {ajax} from "../../src/http/ajax"
+  //引入验证码组件
+  import identify from "./public/identify"
     export default{
         name:"Login",
+        components:{
+          identify
+        },
         data () {
             const validateCode = (rule,value,callback)=>{
                 if(value == ""){
                     callback(new Error("请输入验证码"))
-                }else if(value != "" && value != this.vCode.toLocaleLowerCase()){
+                }else if(value != "" && value != this.verificationCode.toLocaleLowerCase()){
                     callback(new Error("验证码输入不正确,请重新输入"))
                 }else {
                     callback()
@@ -69,12 +75,17 @@
                 isChecked:true,
                 loginLoading:false,
                 //验证码
-                vCode:""
+//                vCode:""
+                //使用组件的验证码
+                verificationCodes:"0123456789abcdefghijklmnopqrstABCDEFGHIJKLMNOPQRSTUVWXYZ",
+                //生成的验证码
+                verificationCode:"",
             }
         },
         mounted(){
             //生成随机验证码
-            this.createVerificationCode()
+//            this.createVerificationCode()
+            this.createVerificationCode(this.verificationCodes,4)
             //获取cookie
             this.getCookie("account")
         },
@@ -90,16 +101,34 @@
               }
           },
           //生成随机验证码
-          createVerificationCode(){
-              const random = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i",
-              "j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F",
-              "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
-              let code = ""
-              for(let i = 0;i<4;i++){
-                  let index = Math.floor(Math.random()*62)
-                  code += random[index]
+//          createVerificationCode(){
+//              const random = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i",
+//              "j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F",
+//              "G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+//              let code = ""
+//              for(let i = 0;i<4;i++){
+//                  let index = Math.floor(Math.random()*62)
+//                  code += random[index]
+//              }
+//              this.vCode = code;
+//          },
+          //生成随机数
+          randomNum(min,max){
+              return Math.floor(Math.random()*(max-min)+min)
+          },
+          //使用组件生成随机验证码
+          createVerificationCode(originCode,num){
+              let _this = this
+              //先清空上一次的验证码
+              this.verificationCode = ""
+              for(let i = 0;i <num;i++){
+                  this.verificationCode += originCode[_this.randomNum(0,originCode.length)]
               }
-              this.vCode = code;
+          },
+          //重新生成验证码
+          refreshVerification(){
+            let _this = this
+            _this.createVerificationCode(this.verificationCodes,4)
           },
           //提交登录
           submitLogin(){
@@ -241,10 +270,9 @@
      float: left;
    }
    .verificationCode{
-     display: block;
-     width: 100px;
-     font-weight: normal;
-     font-style: italic;
+     display: inline-block;
+     margin-left: 10px;
+     margin-top: 1px;
    }
  }
 </style>
