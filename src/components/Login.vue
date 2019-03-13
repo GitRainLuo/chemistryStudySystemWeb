@@ -190,7 +190,7 @@
                                 this.loginLoading = false
                                 this.$Message.error(rData.msg)
                                 //重新生成验证码
-                                this.createVerificationCode()
+                                this.refreshVerification()
                               }
                           }
                         }).catch((error)=>{
