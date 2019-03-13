@@ -8,6 +8,8 @@ import axios from "axios"
 
 let urlConfig = {
   baseURL:"http://127.0.0.1:443"
+  //打包到服务器 后台接口地址
+  // baseURL:"http://112.74.45.191:8081"
 }
 let ajax = axios.create({
   baseURL:urlConfig.baseURL,

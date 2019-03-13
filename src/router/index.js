@@ -29,6 +29,8 @@ const test = m => require.ensure([],()=>m(require("@/components/test/test")))
 Vue.use(Router)
 
 export default new Router({
+  //打包发布服务器用 base:"/自定义" 一般为项目名称 可以为/dist
+  // base:"/dist",
   routes: [
     {
       path: '/',
