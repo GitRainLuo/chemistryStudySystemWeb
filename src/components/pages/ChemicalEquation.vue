@@ -281,6 +281,13 @@
                 curEquationDetails:{},
             }
         },
+        beforeRouteEnter(to,from,next){
+            console.log("equation页面"+"to")
+            console.log(to)
+            console.log("equation页面"+"from")
+            console.log(from)
+            next()
+        },
         mounted(){
             //获取反应类型
             this.reactTypeList = equationReactionType

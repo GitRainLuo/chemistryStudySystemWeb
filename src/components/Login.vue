@@ -176,7 +176,11 @@
                                         let redirect = this.$route.query.redirect
                                         this.$router.push(redirect)
                                     }else {
-                                        this.$router.push({path:"/homePage"})
+                                        //get方式 传递 使用path query
+                                        //this.$router.push({path:"/homePage",query:{id:"111"},params:{id:"222"}})
+                                        //post方式 传递 使用name params
+//                                        this.$router.push({name:"homePage",params:{id:"222222"}})
+                                        this.$router.push({name:"homePage"})
                                     }
                                     //或者
 //                                    if(this.$router.history.current.query.redirect){

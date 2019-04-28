@@ -94,16 +94,16 @@ export default new Router({
       name:"ExamQuestion",
       component:examQuestion
     },
-    {
-      path:"/testTable",
-      name:"testTable",
-      component:testTable
-    },
-    {
-      path:"/test",
-      name:"Test",
-      component:test
-    },
+    // {
+    //   path:"/testTable",
+    //   name:"testTable",
+    //   component:testTable
+    // },
+    // {
+    //   path:"/test",
+    //   name:"Test",
+    //   component:test
+    // },
     //404 notfound
     {
       path:"*",

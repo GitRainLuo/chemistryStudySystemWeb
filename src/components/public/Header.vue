@@ -3,8 +3,8 @@
   <div>
     <Row class="container">
       <Col span="24" class="header">
-        <Col span="12" class="logo">{{sysName}}</Col>
-        <Col span="8" class="userInfo">
+        <Col span="10" class="logo">{{sysName}}</Col>
+        <Col span="10" class="userInfo">
           <div class="infoContainer">
             <span>{{userInfo.userName}}</span>
             <span>{{userInfo.account}}</span>
@@ -86,24 +86,27 @@
       }
       .userInfo{
         .infoContainer{
-          width: 85%;
+          width: 100%;
           margin: 0 auto;
+          /*background-color: red;*/
           span{
             display: inline-block;
-            width: 110px;
+            /*width: 110px;*/
+            width: 30%;
             line-height: 2;
           }
         }
       }
       .avater{
         .avaterContainer{
-          width: 100px;
+          width: 100%;
           position: absolute;
           right:0;
           z-index: 999;
+          /*background-color: yellow;*/
           span{
             display: inline-block;
-            width: 100px;
+            width: 100%;
             line-height: 2;
             cursor: pointer;
             .dropIcon{

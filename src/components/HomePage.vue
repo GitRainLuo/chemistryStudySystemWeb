@@ -5,6 +5,9 @@
       <div style="margin-top: 60px"></div>
       <!--<div style="padding: 30px 0"></div>-->
       <nav-header></nav-header>
+      <!--<div>-->
+        <!--<button @click="goTest">test</button>-->
+      <!--</div>-->
     </div>
 </template>
 
@@ -23,9 +26,31 @@
             return {
             }
         },
+        beforeRouteEnter(to,from,next){
+            console.log("form")
+            console.log(from)
+            console.log("to")
+            console.log(to)
+            next(vm=>{
+              console.log("vm.$router.currentRoute")
+              console.log(vm.$router.currentRoute)
+              console.log("vm.$route")
+              console.log(vm.$route)
+            })
+        },
         mounted(){
+            console.log("mounted")
+            console.log(this.$router,"$router")
+            console.log("this.$router.currentRoute")
+            console.log(this.$router.currentRoute)
+            console.log("this.$route")
+            console.log(this.$route)
+
         },
         methods:{
+//          goTest(){
+//              this.$router.push({path:"/test"})
+//          }
         }
     }
 </script>

@@ -381,17 +381,20 @@ body{
     position: fixed;
     top:40px;
     right: 10px;
-    width: 200px;
-    padding: 5px;
+    /*width: 200px;*/
+    /*padding: 5px;*/
     text-align: center;
     /*background-color: aquamarine;*/
     p{
     }
     .timeDown{
-
+      text-align: right;
+      margin-right: 10px;
     }
   }
   .titleContainer{
+    width: 60%;
+    margin: 0 auto;
     .title{
       display: block;
       width: 100%;
@@ -410,7 +413,7 @@ body{
     }
   }
   .examContainer{
-    width: 65%;
+    width: 85%;
     margin: 10px auto;
     padding: 5px;
     border: 1px solid #ccc;
