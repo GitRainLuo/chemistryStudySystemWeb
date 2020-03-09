@@ -9,10 +9,7 @@
         <!--<button @click="goTest">test</button>-->
       <!--</div>-->
       <!--底部-->
-      <div class="footer">
-        <span>2019 &copy; &nbsp;&nbsp;</span>
-        <span @click="jumpGXJ">蜀ICP备19008734号-1</span>
-      </div>
+      <p-footer></p-footer>
     </div>
 </template>
 
@@ -20,12 +17,15 @@
     //引入公用头部
     import pHeader from "./public/Header.vue"
     //公用导航条
-    import navHeader from "./public/NavHeader";
+    import navHeader from "./public/NavHeader"
+    //底部
+    import pFooter from "./public/Footer"
     export default{
         name:"HomePage",
         components:{
           navHeader,
           pHeader,
+          pFooter
         },
         data () {
             return {
@@ -54,27 +54,10 @@
         methods:{
 //          goTest(){
 //              this.$router.push({path:"/test"})
-//          },
-          jumpGXJ(){
-            let tempWin = window.open('_blank')
-            tempWin.location.href = 'http://beian.miit.gov.cn'
-          }
+//          }
         }
     }
 </script>
 
 <style lang="scss" scoped>
-  .footer{
-    display: block;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 30px;
-    background-color: #ccc;
-    span{
-      height: 30px;
-      line-height: 30px;
-      padding: 5px 2px;
-    }
-  }
 </style>

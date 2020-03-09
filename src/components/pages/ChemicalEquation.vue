@@ -46,7 +46,7 @@
         <Button class="export" @click.native="exportExcel" :loading = "exportLoading">导出Excel</Button>
       </div>
       <!--表格-->
-      <Table :columns="table.equationColumns" :data="table.equationData" border stripe no-data-text="暂无数据" style="width: 100%;margin: 0 5px"></Table>
+      <Table :columns="table.equationColumns" :data="table.equationData" border stripe no-data-text="暂无数据" style="width: 100%;margin: 0 auto"></Table>
       <!--分页-->
       <Page :total="table.total" show-total show-elevator show-sizer @on-change="pageChange" @on-page-size-change="pageSizeChange" style="margin-top: 5px"></Page>
       <!--查看详细弹框-->
@@ -86,17 +86,19 @@
           </Row>
         </Form>
       </Modal>
+      <p-footer></p-footer>
     </div>
 </template>
 
 <script>
     import navHeader from "../public/NavHeader.vue"
+    import pFooter from "../public/Footer.vue"
     import {ajax} from "../../http/ajax"
     import equationReactionType from "../../data/reactionType"
     export default{
         name:"ChemicalEquation",
         components:{
-            navHeader
+            navHeader,pFooter
         },
         //methods 直接this.reload()实现刷新
         inject:["reload"],

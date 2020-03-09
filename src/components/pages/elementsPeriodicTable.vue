@@ -1,105 +1,110 @@
 <template>
-    <div>
-        <nav-header></nav-header>
-        <div class="container">
-          <table class="table" cellspacing="0" cellpadding="0">
-            <tr>
-              <td>元素序号:</td>
-            </tr>
-            <tr>
-              <td>{{table.elementId}}</td>
-            </tr>
-            <tr>
-              <td>元素符号:</td>
-            </tr>
-            <tr>
-              <td>{{table.element}}</td>
-            </tr>
-            <tr>
-              <td>元素名:</td>
-            </tr>
-            <tr>
-              <td>{{table.elementName}}</td>
-            </tr>
-            <tr>
-              <td>相对原子质量:</td>
-            </tr>
-            <tr>
-              <td>{{table.elementRelativeMass}}</td>
-            </tr>
-          </table>
-          <ul class="ulContainer">
-            <!--<li v-for="item in elementsList">{{item.element}}</li>-->
-            <li v-for="item in elementsList" :class="item.elementId ? 'addBorder': ''" @click="lookInfo(item)">
-              <p class="top"><span>{{item.elementId}}</span>{{item.element}}</p>
-              <p>{{item.elementName}}</p>
-              <p class="bottom">{{item.elementRelativeMass}}</p>
-            </li>
-          </ul>
-        </div>
+  <div>
+    <nav-header></nav-header>
+    <div class="container">
+      <table class="table" cellspacing="0" cellpadding="0">
+        <tr>
+          <td>元素序号:</td>
+        </tr>
+        <tr>
+          <td>{{table.elementId}}</td>
+        </tr>
+        <tr>
+          <td>元素符号:</td>
+        </tr>
+        <tr>
+          <td>{{table.element}}</td>
+        </tr>
+        <tr>
+          <td>元素名:</td>
+        </tr>
+        <tr>
+          <td>{{table.elementName}}</td>
+        </tr>
+        <tr>
+          <td>相对原子质量:</td>
+        </tr>
+        <tr>
+          <td>{{table.elementRelativeMass}}</td>
+        </tr>
+      </table>
+      <ul class="ulContainer">
+        <!--<li v-for="item in elementsList">{{item.element}}</li>-->
+        <li v-for="item in elementsList" :class="item.elementId ? 'addBorder': ''" @click="lookInfo(item)">
+          <p class="top"><span>{{item.elementId}}</span>{{item.element}}</p>
+          <p>{{item.elementName}}</p>
+          <p class="bottom">{{item.elementRelativeMass}}</p>
+        </li>
+      </ul>
     </div>
+    <p-footer></p-footer>
+  </div>
 </template>
 
 <script>
-    //将数据引过来
-    import {elementsData} from "../../data/elmentsData"
-    //公共导航
-    import navHeader from "../public/NavHeader.vue"
-    export default{
-        name:"elementsPeriodicTable",
-        components:{
-            navHeader
-        },
-        data () {
-            return {
+  //将数据引过来
+  import {elementsData} from "../../data/elmentsData"
+  //公共导航
+  import navHeader from "../public/NavHeader.vue"
+  import pFooter from "../public/Footer.vue"
+
+  export default {
+    name: "elementsPeriodicTable",
+    components: {
+      navHeader, pFooter
+    },
+    data() {
+      return {
 //              elementsList:[
 //                {element:"H",elementId:1,elementName:"氢",elementRelativeMass:1.008}
 //              ]
-              elementsList:[],
-              table:{
-                  elementId:"",
-                  element:"",
-                  elementName:"",
-                  elementRelativeMass:""
-              }
-            }
-        },
-        watch:{
-            "elementsList.elementId":function (val) {
-              if(val){
-                  alert(1)
-              }
-            }
-        },
-        mounted(){
-            //将引过来的数据赋给本页需要的data
-            this.elementsList = elementsData
-        },
-        methods:{
-            lookInfo(item){
+        elementsList: [],
+        table: {
+          elementId: "",
+          element: "",
+          elementName: "",
+          elementRelativeMass: ""
+        }
+      }
+    },
+    watch: {
+      "elementsList.elementId": function (val) {
+        if (val) {
+          alert(1)
+        }
+      }
+    },
+    mounted() {
+      //将引过来的数据赋给本页需要的data
+      this.elementsList = elementsData
+    },
+    methods: {
+      lookInfo(item) {
 //                console.log(event.currentTarget.innerHTML)
 //              let el = event.currentTarget;
 //              alert("当前对象的内容："+JSON.stringify(el.innerHTML));
 //              alert(JSON.stringify(item.elementId))
-              this.table.elementId = item.elementId
-              this.table.element = item.element
-              this.table.elementName = item.elementName
-              this.table.elementRelativeMass = item.elementRelativeMass
-            }
-        }
+        this.table.elementId = item.elementId
+        this.table.element = item.element
+        this.table.elementName = item.elementName
+        this.table.elementRelativeMass = item.elementRelativeMass
+      }
     }
+  }
 </script>
 
 <style lang="scss" scoped>
-  .container{
+  .container {
     width: 100%;
-    .ulContainer{
+
+    .ulContainer {
       width: 80%;
       height: 570px;
       margin: 2px auto 0 auto;
       padding: 5px;
       border: 1px solid #ccc;
-      li{
+
+      li {
         /*position: relative;*/
         width: 50px;
         height: 50px;
@@ -111,15 +116,16 @@
         margin-top: 5px;
         float: left;
         /*border: 1px solid #ccc;*/
-        .top{
+        .top {
           width: 50px;
           text-align: center;
           /*margin: 0 auto;*/
-          span{
+          span {
             margin-right: 5px;
           }
         }
-        .bottom{
+
+        .bottom {
           /*position: absolute;*/
           /*left: 50%;*/
           /*margin-left: -10px;*/
@@ -130,22 +136,25 @@
           font-size: 9px;
         }
       }
-      .addBorder{
+
+      .addBorder {
         border: 1px solid #ccc;
       }
     }
-    .table{
+
+    .table {
       width: 9%;
       margin: 0 0.5% 0 0.5%;
       float: left;
       /*tr td:nth-child(1){*/
-        /*border-left: 1px solid #ccc;*/
-        /*border-top: 1px solid #ccc;*/
+      /*border-left: 1px solid #ccc;*/
+      /*border-top: 1px solid #ccc;*/
       /*}*/
-      tr:nth-child(1) td{
+      tr:nth-child(1) td {
         border-top: 1px solid #ccc;
       }
-      tr td{
+
+      tr td {
         /*border-left: 1px solid #ccc;*/
         /*border-top: 1px solid #ccc;*/
         width: 100px;
