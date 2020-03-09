@@ -211,7 +211,7 @@
   .register{
     width: 500px;
     height: auto;
-    margin: 10px auto;
+    margin: 40px auto;
     padding: 10px 40px 20px 20px;
     border: 1px solid #ccc;
     -webkit-border-radius: 10px;
@@ -227,6 +227,12 @@
     .goBack{
       float: right;
       margin-right: 65px;
+    }
+  }
+  @media screen and (max-width: 500px){
+    .register{
+      width: 95%;
+      height: auto;
     }
   }
 </style>

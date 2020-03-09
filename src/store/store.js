@@ -27,6 +27,7 @@ const store = new Vuex.Store({
     }
   },
   //事件 更改状态 通过commit触发(this.$store.commit)  必须是同步函数
+  //通过dispatch触发 异步
   mutations:{
     userInfoSet:(state,obj)=>{
       state.userInfo.name = obj.name

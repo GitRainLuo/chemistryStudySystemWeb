@@ -279,4 +279,10 @@
      margin-top: 1px;
    }
  }
+  @media screen and (max-width: 500px){
+    .loginContainer{
+      width: 95%;
+      height: auto;
+    }
+  }
 </style>

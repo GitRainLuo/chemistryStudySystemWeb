@@ -9,12 +9,13 @@ import updateInfo from "@/components/personal/UpdateInfo"
 import chemicalEquation from "@/components/pages/ChemicalEquation"
 import notFound from "@/components/NotFound"
 import examQuestion from "@/components/pages/onlineTest/ExamQuestion"
-import testTable from "@/components/pages/testTable"
 
 //进行页面按需加载的引入方式
 const homePage = r => require.ensure([],() => r(require("@/components/HomePage")))
 
 const test = m => require.ensure([],()=>m(require("@/components/test/test")))
+
+const uploadFiles = () =>import("@/components/test/UploadFiles")
 //路由懒加载
 // const Foo = () => Promise.resolve({ /* 组件定义对象 */ })
 // import('./Foo.vue') // 返回 Promise
@@ -108,6 +109,11 @@ export default new Router({
     {
       path:"*",
       component:notFound
+    },
+    {
+      path:"/UploadFiles",
+      name:"UploadFiles",
+      component:uploadFiles
     }
   ],
   //滚动行为

@@ -129,7 +129,7 @@
   .updateContainer{
     width: 500px;
     height: auto;
-    margin: 10px auto;
+    margin: 40px auto;
     padding: 10px 25px 20px 10px;
     border: 1px solid #ccc;
     -webkit-border-radius: 10px;
@@ -149,6 +149,12 @@
     .goBack{
       position: absolute;
       right: 110px;
+    }
+  }
+  @media screen and (max-width: 500px){
+    .updateContainer{
+      width: 95%;
+      height: auto;
     }
   }
 </style>
